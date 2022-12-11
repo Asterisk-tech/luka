@@ -3,7 +3,7 @@ const {Events} = require('discord.js');
 
 module.exports = function (client, config) {
 	client.on(Events.MessageCreate, message => {
-		const match = message.content.match(new RegExp(`^${config.commandPrefix}weather (\\d{5})`));
+		const match = message.content.match(new RegExp(`^${config.commandPrefix}weather (\\d+)`));
 		if (match) {
 			// Use the library to search for the weather data by zip code
 			weather.find({search: match[1], degreeType: 'F'}, (error, result) => {
