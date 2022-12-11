@@ -22,11 +22,20 @@ module.exports = function (client, config) {
 					} catch (error) {
 						// Handle the error here
 						console.error(error);
-						message.reply("Sorry, that seems to be an invalid comic. Please try a different one.");
+						https.get(`https://xkcd.com/info.0.json`, response => {
+							let data = '';
+							response.on('data', chunk => {
+								data += chunk;
+							});
+							response.on('end', () => {
+								const latestJsonData = JSON.parse(data);
+								message.reply(latestJsonData.img);
+								message.reply(`${latestJsonData.title}: ${latestJsonData.alt}`);
+							});
+						});
 					}
 				});
 			});
 		}
 	});
 };
-
