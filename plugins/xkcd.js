@@ -13,12 +13,20 @@ module.exports = function (client, config) {
 					data += chunk;
 				});
 				response.on('end', () => {
-					const jsonData = JSON.parse(data);
-					// Reply with the value of the "img" key in the JSON data
-					message.reply(jsonData.img);
-					message.reply(`${jsonData.title}: ${jsonData.alt}`);
+					let jsonData;
+					try {
+						jsonData = JSON.parse(data);
+						// Reply with the value of the "img" key in the JSON data
+						message.reply(jsonData.img);
+						message.reply(`${jsonData.title}: ${jsonData.alt}`);
+					} catch (error) {
+						// Handle the error here
+						console.error(error);
+						message.reply("Sorry, there was an error processing your request. Please try again later.");
+					}
 				});
 			});
 		}
 	});
 };
+
