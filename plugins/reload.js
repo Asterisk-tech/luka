@@ -12,15 +12,14 @@ client.on(Events.MessageCreate, message => {
 			if (data.toString().includes('Fast-forward')) {
 				const killProcess = spawn('kill', [process.pid]);
 				killProcess.on('close', () => {
-					exec('node ./index.js', (error, stdout, stderr) => {
-						if (error) {
-							console.error(`Error: ${error}`);
-						}
+					const nodeProcess = fork('./index.js');
+					nodeProcess.on('close', () => {
+						console.log('Node process restarted');
+						message.reply('Updates were installed, restarting...');
 					});
-					message.reply('Updates were installed, restarting...');
 				});
 			} else {
-				message.reply('Already up to date.');
+				message.reply('Already up to date...');
 			}
 		});
 	}
