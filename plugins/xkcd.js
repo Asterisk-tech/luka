@@ -22,7 +22,7 @@ module.exports = function (client, config) {
 					} catch (error) {
 						// Handle the error here
 						console.error(error);
-						message.reply("Sorry, there was an error processing your request. Please try again later.");
+						message.reply("Sorry, that seems to be an invalid comic. Please try a different one.");
 					}
 				});
 			});
