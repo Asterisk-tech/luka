@@ -4,19 +4,20 @@ const {Events} = require('discord.js');
 module.exports = function (client, config) {
 	client.on(Events.MessageCreate, message => {
 		if (message.content === `${config.commandPrefix}reload` && message.author.id == config.userId) {
-			// Do a Git pull to check for updates
+		// Do a Git pull to check for updates
 			const gitPull = spawn('git', ['pull']);
 
 			gitPull.stdout.on('data', data => {
-				// If there are any updates, restart the process
-				if (data.toString().includes('Already up to date.')) {
-					message.reply('Already up to date!');
-				} else {
+			// If there are any updates, restart the process
+				if (data.toString().includes('Fast-forward')) {
 					exec('node ./index.js', (error, stdout, stderr) => {
 						if (error) {
 							console.error(`Error: ${error}`);
 						}
 					});
+					message.reply('Updates were installed, restarting...');
+				} else {
+					message.reply('Already up to date, you idiot!');
 				}
 			});
 		}
