@@ -22,7 +22,7 @@ module.exports = function (client, config) {
 					} catch (error) {
 						// Handle the error here
 						console.error(error);
-						https.get(`https://xkcd.com/info.0.json`, response => {
+						https.get('https://xkcd.com/info.0.json', response => {
 							let data = '';
 							response.on('data', chunk => {
 								data += chunk;
